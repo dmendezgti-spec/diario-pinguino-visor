@@ -1,0 +1,23 @@
+{
+  "name": "diario-digital-pinguino-prototipo",
+  "version": "1.0.0",
+  "description": "Prototipo local de diario digital con visor PDF.js y ruta editorial por fecha.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "diario",
+    "editorial",
+    "pdf",
+    "pdfjs",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pdfjs-dist": "^4.10.38"
+  }
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Pingüino | Diario Digital</title>
+  <meta name="description" content="Diario digital con lectura online de la edición diaria en PDF.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="home-body">
+  <header class="site-header">
+    <div class="brand-wrap container">
+      <div class="official-strip" aria-label="Identidad oficial editorial">
+        <span class="seal-badge">EP</span>
+        <p class="official-strip-text">Boletin oficial de informacion diaria</p>
+      </div>
+      <p class="edition-tag">EDICION OFICIAL DIGITAL</p>
+      <h1 class="brand">El Pingüino</h1>
+      <p class="claim">Publicacion diaria con enfoque informativo institucional, archivo de ediciones y lectura en linea.</p>
+    </div>
+  </header>
+
+  <main class="container home-layout">
+    <section class="hero-card" aria-labelledby="edicion-hoy-title">
+      <div class="hero-label">Edicion oficial destacada</div>
+      <h2 id="edicion-hoy-title">Edicion de hoy</h2>
+      <p class="hero-date" id="fecha-hoy">--/--/----</p>
+      <div class="meta-ribbon" aria-label="Metadatos de la edicion oficial">
+        <span class="meta-pill" id="numero-edicion">N. Edicion: --</span>
+        <span class="meta-pill" id="ano-editorial">Ano editorial: ----</span>
+        <span class="meta-pill is-live" id="estado-publicacion">Estado: Publicada</span>
+      </div>
+      <p class="hero-copy">Accede a la publicacion oficial del dia en formato PDF mediante nuestro visor integrado.</p>
+      <div class="hero-actions">
+        <a id="leer-edicion-link" class="btn btn-primary" href="/diario/30-03-2026">Leer edicion</a>
+        <a id="descargar-edicion-link" class="btn btn-secondary" href="/ediciones/2026/03/30-03-2026.pdf" download>Descargar PDF</a>
+      </div>
+    </section>
+
+    <aside class="sidebar-card" aria-labelledby="recientes-title">
+      <h3 id="recientes-title">Archivo de ediciones oficiales</h3>
+      <ul class="recent-list" id="recent-editions-list">
+        <li style="color:#999;font-size:0.85rem">Cargando ediciones...</li>
+      </ul>
+      <p class="sidebar-note">Base preparada para evolucionar a archivo historico oficial con catalogo dinamico y filtros por fecha.</p>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>El Pingüino Diario Digital</p>
+      <p>Prototipo local de plataforma editorial oficial</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

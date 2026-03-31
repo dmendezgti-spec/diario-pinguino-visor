@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lectura de edicion | El Pingüino</title>
+  <meta name="description" content="Visor de ediciones diarias en PDF.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="viewer-body">
+  <header class="viewer-topbar">
+    <div class="container topbar-content">
+      <a class="back-link" href="/">Volver al inicio</a>
+      <div class="topbar-meta">
+        <strong>El Pingüino | Publicacion oficial</strong>
+        <span id="viewer-fecha">Edicion oficial: --/--/----</span>
+        <div class="topbar-chips" aria-label="Ficha de edicion">
+          <span class="meta-pill" id="viewer-edition-number">N. Edicion: --</span>
+          <span class="meta-pill" id="viewer-year">Ano editorial: ----</span>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="fullscreen-toggle" class="control-btn" type="button">Pantalla completa</button>
+        <a id="viewer-download-link" class="btn btn-secondary btn-small" href="#" download>Descargar PDF</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="viewer-main">
+    <section id="viewer-error" class="viewer-message hidden" role="alert">
+      <h1>Edicion no disponible</h1>
+      <p>La publicacion oficial solicitada no existe o aun no fue liberada en el sistema.</p>
+      <a class="btn btn-primary" href="/">Volver al inicio</a>
+    </section>
+
+    <section id="viewer-shell" class="viewer-shell hidden" aria-label="Visor de edicion PDF">
+      <div class="viewer-app">
+        <aside class="thumbs-panel" aria-label="Miniaturas de paginas">
+          <div id="thumbs-list" class="thumbs-list"></div>
+        </aside>
+
+        <section class="reader-panel" aria-label="Lectura principal">
+          <div class="reader-controls">
+            <div class="control-group">
+              <button id="prev-page" class="control-btn" type="button">Anterior</button>
+              <span id="page-indicator" class="control-pill">Pagina 1 / 1</span>
+              <button id="next-page" class="control-btn" type="button">Siguiente</button>
+            </div>
+            <div class="control-group">
+              <button id="zoom-out" class="control-btn" type="button">-</button>
+              <span id="zoom-indicator" class="control-pill">100%</span>
+              <button id="zoom-in" class="control-btn" type="button">+</button>
+              <button id="fit-width" class="control-btn" type="button">Ajustar pagina</button>
+            </div>
+            <div class="control-group control-group-search">
+              <input id="search-query" class="search-input" type="search" placeholder="Buscar texto en la edicion" aria-label="Buscar texto en la edicion">
+              <button id="search-submit" class="control-btn" type="button">Buscar</button>
+              <button id="search-prev" class="control-btn" type="button">Coincidencia anterior</button>
+              <button id="search-next" class="control-btn" type="button">Siguiente coincidencia</button>
+              <span id="search-status" class="control-pill">Sin busqueda</span>
+            </div>
+          </div>
+
+          <div class="reader-stage-wrap">
+            <button id="nav-left" class="nav-arrow nav-arrow-left" type="button" aria-label="Pagina anterior">&#8249;</button>
+
+            <div id="reader-stage" class="reader-stage" aria-live="polite">
+              <div id="reader-loading" class="reader-loading" role="status">
+                <div class="loading-spinner"></div>
+                <span>Cargando edicion...</span>
+              </div>
+              <div id="pdf-viewport">
+                <div id="pdf-spread" class="pdf-spread">
+                  <canvas id="pdf-canvas-left"></canvas>
+                  <canvas id="pdf-canvas-right" class="is-hidden"></canvas>
+                </div>
+              </div>
+              <div id="flip-wrap" aria-hidden="true">
+                <canvas id="flip-front"></canvas>
+                <canvas id="flip-back"></canvas>
+              </div>
+              <canvas id="flip-static" aria-hidden="true"></canvas>
+            </div>
+
+            <button id="nav-right" class="nav-arrow nav-arrow-right" type="button" aria-label="Pagina siguiente">&#8250;</button>
+          </div>
+
+          <div class="floating-bar" aria-label="Navegacion rapida">
+            <button id="bottom-prev" class="control-btn" type="button">Anterior</button>
+            <span id="bottom-page-label" class="control-pill">Pagina 1 / 1</span>
+            <button id="bottom-next" class="control-btn" type="button">Siguiente</button>
+            <input id="bottom-page-range" class="page-range" type="range" min="1" max="1" value="1" aria-label="Seleccionar pagina">
+            <div class="zoom-slider-group" aria-label="Zoom">
+              <button id="bottom-zoom-out" class="bar-icon-btn zoom-step-btn" type="button" aria-label="Reducir zoom" title="Reducir zoom">&#x2212;</button>
+              <input id="bottom-zoom-range" class="zoom-range" type="range" min="20" max="400" step="5" value="125" aria-label="Nivel de zoom">
+              <button id="bottom-zoom-in" class="bar-icon-btn zoom-step-btn" type="button" aria-label="Aumentar zoom" title="Aumentar zoom">&#x2B;</button>
+            </div>
+            <a id="bottom-download-link" class="bar-download-btn" href="#" download title="Descargar PDF" aria-label="Descargar PDF"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 12l-5-5 1.4-1.4L7 9.2V1h2v8.2l2.6-3.6L13 7 8 12z"/><path d="M2 13h12v2H2z"/></svg> Descargar PDF</a>
+            <button id="bottom-fullscreen" class="bar-icon-btn" type="button" title="Pantalla completa" aria-label="Pantalla completa">&#x26F6;</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/diario.js" type="module"></script>
+</body>
+</html>
