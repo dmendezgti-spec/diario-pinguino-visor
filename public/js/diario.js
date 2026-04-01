@@ -735,6 +735,10 @@ function bindControls() {
       return;
     }
 
+    if (event.target.closest('.pdf-annotation-link')) {
+      return;
+    }
+
     isPanDragging = true;
     panStartX = event.clientX;
     panStartY = event.clientY;
