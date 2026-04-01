@@ -11,6 +11,10 @@ const viewerYearElement = document.getElementById('viewer-year');
 const thumbsListElement = document.getElementById('thumbs-list');
 const leftCanvasElement = document.getElementById('pdf-canvas-left');
 const rightCanvasElement = document.getElementById('pdf-canvas-right');
+const leftWrapperElement = document.getElementById('pdf-wrapper-left');
+const rightWrapperElement = document.getElementById('pdf-wrapper-right');
+const leftAnnotationsElement = document.getElementById('pdf-annotations-left');
+const rightAnnotationsElement = document.getElementById('pdf-annotations-right');
 const stageElement = document.getElementById('reader-stage');
 const spreadElement = document.getElementById('pdf-spread');
 const viewportElement = document.getElementById('pdf-viewport');
@@ -478,6 +482,39 @@ async function flipNavigate(targetPage, direction) {
   isFlipping = false;
 }
 
+async function renderAnnotations(pageNumber, containerElement) {
+  containerElement.innerHTML = '';
+  if (!pdfDocument) return;
+
+  const page = await getPageCached(pageNumber);
+  const viewport = page.getViewport({ scale: currentScale });
+  const annotations = await page.getAnnotations();
+
+  for (const anno of annotations) {
+    if (anno.subtype === 'Link' && anno.url) {
+      const link = document.createElement('a');
+      link.href = anno.url;
+      link.target = '_blank';
+      link.className = 'pdf-annotation-link';
+      link.title = anno.url;
+      link.rel = 'noopener noreferrer';
+
+      const rect = viewport.convertToViewportRectangle(anno.rect);
+      const left = Math.min(rect[0], rect[2]);
+      const top = Math.min(rect[1], rect[3]);
+      const width = Math.abs(rect[2] - rect[0]);
+      const height = Math.abs(rect[3] - rect[1]);
+
+      link.style.left = `${left}px`;
+      link.style.top = `${top}px`;
+      link.style.width = `${width}px`;
+      link.style.height = `${height}px`;
+
+      containerElement.appendChild(link);
+    }
+  }
+}
+
 async function renderCanvasPage({ canvas, context, pageNumber, scale }) {
   const page = await getPageCached(pageNumber);
   const viewport = page.getViewport({ scale });
@@ -519,8 +556,10 @@ async function renderPage(pageNumber) {
       pageNumber: visiblePages[0],
       scale: currentScale
     });
+    void renderAnnotations(visiblePages[0], leftAnnotationsElement);
 
     if (visiblePages[1]) {
+      rightWrapperElement.classList.remove('is-hidden');
       rightCanvasElement.classList.remove('is-hidden');
       await renderCanvasPage({
         canvas: rightCanvasElement,
@@ -528,7 +567,9 @@ async function renderPage(pageNumber) {
         pageNumber: visiblePages[1],
         scale: currentScale
       });
+      void renderAnnotations(visiblePages[1], rightAnnotationsElement);
     } else {
+      rightWrapperElement.classList.add('is-hidden');
       rightCanvasElement.classList.add('is-hidden');
     }
 

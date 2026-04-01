@@ -74,8 +74,14 @@
               </div>
               <div id="pdf-viewport">
                 <div id="pdf-spread" class="pdf-spread">
-                  <canvas id="pdf-canvas-left"></canvas>
-                  <canvas id="pdf-canvas-right" class="is-hidden"></canvas>
+                  <div id="pdf-wrapper-left" class="pdf-page-wrapper">
+                    <canvas id="pdf-canvas-left"></canvas>
+                    <div id="pdf-annotations-left" class="annotation-layer"></div>
+                  </div>
+                  <div id="pdf-wrapper-right" class="pdf-page-wrapper is-hidden">
+                    <canvas id="pdf-canvas-right" class="is-hidden"></canvas>
+                    <div id="pdf-annotations-right" class="annotation-layer"></div>
+                  </div>
                 </div>
               </div>
               <div id="flip-wrap" aria-hidden="true">
